@@ -38,3 +38,5 @@ defaults:
   - scope:
       path: ""
       type: post
+      
+baseurl: "/blog"
