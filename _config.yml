@@ -38,10 +38,3 @@ defaults:
   - scope:
       path: ""
       type: post
-    values:
-      tags: 
-        - blog
-        - technical
-        - engineering
-        - software
-        - websites

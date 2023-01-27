@@ -1,3 +1,11 @@
+---
+tags:
+  - azure
+  - nextjs
+  - static-web-apps
+  - azure-pipelines
+---
+
 ## Azure Static Web Apps with Next.js and Azure Pipelines
 
 Building and deploying a Next.js site on Azure Static Web Apps with Azure Pipelines
