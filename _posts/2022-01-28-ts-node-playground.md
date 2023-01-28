@@ -23,7 +23,7 @@ npm run dev
 
 ### Node modules
 
-But even now this still won't let me use node modules! I added `const res = fetch('...') and I got an error:
+But even now this still won't let me use node modules! I added `const res = fetch('...')` and I got an error:
 
 > ReferenceError: fetch is not defined
 
