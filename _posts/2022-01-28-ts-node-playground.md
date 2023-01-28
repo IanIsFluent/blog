@@ -28,3 +28,18 @@ But even now this still won't let me use node modules! I added `const res = fetc
 > ReferenceError: fetch is not defined
 
 I had to run `npm i node` to fix this.
+
+### Prettier
+
+The only thing left now is to make sure your code looks nice - my standard .prettierrc is:
+
+```json
+{
+  "tabWidth": 2,
+  "useTabs": false,
+  "printWidth": 120,
+  "singleQuote": true,
+  "semi": false,
+  "trailingComma": "all"
+}
+```
