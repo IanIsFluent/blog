@@ -12,7 +12,7 @@ Text in software is complicated. We were struggling with an HTTP response body w
 The answer was that it was UTF-16 encoded, so to decode this we needed to use:
 
 ```js
-const decoded = Buffer.from(body, 'utf16le').toString('utf8');
+const decoded = Buffer.from(body, 'utf-16le').toString('utf-8');
 ```
 
 ### UTF Byte Order Marks
@@ -44,19 +44,17 @@ function firstThreeHexChars(byteArray: Uint8Array) {
 Now we can check the encoding using those characters:
 
 ```ts
-async function detectEncodingFromBom(
-  url: string
-): Promise<'utf8' | 'utf16le' | 'utf16be' | undefined> {
-  const res = await fetch(url);
-  const body = await res.body.getReader().read();
-  if (body.value.length >= 3) {
-    const hexString = firstThreeHexChars(body.value);
+function detectEncodingFromBom(
+  byteArray: Uint8Array
+): 'utf-8' | 'utf-16le' | 'utf-16be' | undefined {
+  if (byteArray.length >= 3) {
+    const hexString = firstThreeHexChars(byteArray);
     if (hexString === 'efbbbf') {
-      return 'utf8';
+      return 'utf-8';
     } else if (hexString.startsWith('fffe')) {
-      return 'utf16le';
+      return 'utf-16le';
     } else if (hexString.startsWith('feff')) {
-      return 'utf16be';
+      return 'utf-16be';
     }
   }
 }
@@ -64,13 +62,16 @@ async function detectEncodingFromBom(
 
 ### Decode the body using the correct encoding
 
-And finally decode the body using the correct encoding:
+So to get a byte array from a url, detect its encoding, and then decode it:
 
 ```ts
-async function decodeBody(url: string) {
-  const encoding = await detectEncodingFromBom(url);
+async function getBodyTextWithDetectedEncoding(url: string) {
   const res = await fetch(url);
-  const body = await res.text();
-  return Buffer.from(body, encoding).toString('utf8');
+  const byteArray = await res.arrayBuffer();
+  const encoding = detectEncodingFromBom(new Uint8Array(byteArray));
+
+  const dec = new TextDecoder(encoding);
+  const text = dec.decode(byteArray);
+  return text;
 }
 ```
