@@ -17,7 +17,7 @@ const decoded = Buffer.from(body, 'utf16le').toString('utf8');
 
 ### UTF Byte Order Marks
 
-But if you try to decode a UTF-8 buffer as UTF-16 it won't work, so we need to check the encoding before decoding it. We can do this by checking the Byte Order Mark (BOM) (we currently only care about UTF-8 or 16!).
+But if you try to decode a UTF-8 buffer as UTF-16 it won't work, so we need to check the encoding before decoding it. We can do this by checking the [Byte Order Mark (BOM)](https://en.wikipedia.org/wiki/Byte_order_mark) (we currently only care about UTF-8 or 16!).
 
 | Encoding    | BOM      |
 | ----------- | -------- |
