@@ -22,9 +22,9 @@ theme: "minima"
 
 rss: rss
 
+highlighter: rouge
 kramdown:
-  syntax_highlighter_opts:
-    disable: true
+  syntax_highlighter: rogue
     
 plugins:
   - jekyll-feed
