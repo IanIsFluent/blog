@@ -18,15 +18,15 @@ This also has the advantage of documenting for the front-end developers what the
 
 ### Example
 
-After running the [nestjs quickstart](https://docs.nestjs.com/first-steps), then adding the [nestjs OpenAPI bootstrap code](https://docs.nestjs.com/openapi/introduction), we can move the document creation code into its own function:
+After running the [nestjs quickstart](https://docs.nestjs.com/first-steps), then adding the [nestjs OpenAPI bootstrap code](https://docs.nestjs.com/openapi/introduction), we can move the document creation code into its own function - in its own file:
 
 ```ts
-function createDocument(app: INestApplication) {
+function createApiDoc(app: INestApplication) {
   const options = new DocumentBuilder()
-    .setTitle("Cats example")
-    .setDescription("The cats API description")
-    .setVersion("1.0")
-    .addTag("cats")
+    .setTitle('Cats example')
+    .setDescription('The cats API description')
+    .setVersion('1.0')
+    .addTag('cats')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   return document;
@@ -36,13 +36,72 @@ function createDocument(app: INestApplication) {
 Then we can write a test to create the doc and check that a section looks as it should:
 
 ```ts
-it("API docs should match expected", async () => {
+it('hello API docs operationId should be AppController_getHello', async () => {
   const app = await NestFactory.create(AppModule);
   const docs = createApiDoc(app);
   expect(docs).toMatchObject({
-    paths: { "/": { get: { operationId: "AppController_getHello" } } },
+    paths: { '/': { get: { operationId: 'AppController_getHello' } } },
+  });
+});
+```
+
+If we add the operationID decorator to the controller method, like so:
+
+```ts
+@Get()
+@ApiOperation({ operationId: "hello" })
+getHello(): string {
+  return this.appService.getHello();
+}
+```
+
+Then the test should fail, and we can fix it by updating the test to match the new operationId, like so:
+
+```ts
+it('hello API docs operationId should be hello', async () => {
+  const app = await NestFactory.create(AppModule);
+  const docs = createApiDoc(app);
+  expect(docs).toMatchObject({
+    paths: { '/': { get: { operationId: 'hello' } } },
   });
 });
 ```
 
 This way we can demonstrate that the API is working as expected, and also document what the API looks like.
+
+### Complex response types
+
+Usually to document a Nestjs API, we'd add the Nestjs Swagger plugin, but this only works [when running from the command line](https://github.com/nestjs/swagger/issues/1123), so we can't use it in our unit tests.
+
+That means if we test that the docs include the type for a 200 response, like this:
+
+```ts
+it('hello API docs should include 200 response type string', async () => {
+  const app = await NestFactory.create(AppModule);
+  const docs = createApiDoc(app);
+
+  const helloRes = docs.paths['/'].get.responses['200'] as ResponseObject;
+  const resSchema = helloRes.content?.['application/json']?.schema;
+  expect(resSchema).toEqual({ type: 'string' });
+});
+```
+
+Then the test will fail - with the following error:
+
+```ts
+Expected: {"type": "string"}
+Received: undefined
+```
+
+To get around this limitation, we can explicitly document the default response type with an annotation. Though this is not as good as if we could use the Swagger plugin in our test.
+
+```ts
+@Get()
+@ApiOperation({ operationId: 'hello' })
+@ApiResponse({ status: 200, type: String })
+getHello(): string {
+  return this.appService.getHello();
+}
+```
+
+But now we have another passing test! We have also documented the API in the tests, and prevented regressions. Time for a coffee!
