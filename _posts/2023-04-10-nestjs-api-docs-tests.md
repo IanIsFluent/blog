@@ -33,12 +33,24 @@ function createApiDoc(app: INestApplication) {
 }
 ```
 
-Then we can write a test to create the doc and check that a section looks as it should:
+Then we can write a test to create the doc and check that a section looks as it should - this one will test the `SutController` class - which depends on a service called `ExampleService`:
 
 ```ts
+let app: INestApplication;
+beforeAll(async () => {
+  const module = await Test.createTestingModule({
+    controllers: [SutController],
+    providers: [ExampleService],
+  })
+    .overrideProvider(ExampleService)
+    .useValue({ getHello: () => 'Hello World!' })
+    .compile();
+  app = await module.createNestApplication();
+});
+
 it('hello API docs operationId should be AppController_getHello', async () => {
-  const app = await NestFactory.create(AppModule);
   const docs = createApiDoc(app);
+
   expect(docs).toMatchObject({
     paths: { '/': { get: { operationId: 'AppController_getHello' } } },
   });
@@ -59,8 +71,8 @@ Then the test should fail, and we can fix it by updating the test to match the n
 
 ```ts
 it('hello API docs operationId should be hello', async () => {
-  const app = await NestFactory.create(AppModule);
   const docs = createApiDoc(app);
+
   expect(docs).toMatchObject({
     paths: { '/': { get: { operationId: 'hello' } } },
   });
@@ -77,7 +89,6 @@ That means that if we add a test that the docs include the type for a 200 respon
 
 ```ts
 it('hello API docs should include 200 response type string', async () => {
-  const app = await NestFactory.create(AppModule);
   const docs = createApiDoc(app);
 
   const helloRes = docs.paths['/'].get.responses['200'] as ResponseObject;
