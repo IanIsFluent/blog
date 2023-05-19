@@ -42,9 +42,7 @@ One issue I ran into was that [productive.io](https://productive.io/) don't have
 
 ## Productivity++
 
-So far the most useful scripts have been to stop the current timer and start the last active one with a keyboard shortcut - so useful when I want to go for a walk and lunch, and when I get back! 🚶 Here's a video of it in action (without desktop notifications!)
-
-![](https://github.com/IanIsFluent/blog/assets/34126328/dd3cfd54-7842-4c7e-934e-c6c4174ac379)
+So far the most useful scripts have been to stop the current timer and start the last active one with a keyboard shortcut - so useful when I want to go for a walk and lunch, and when I get back! 🚶
 
 The next thing I'd like to be able to do is restart a timer on any recent project - and stop the current one if there is one. The problem is that you only want to restart the timer if its the same day - so I need to do a bit of work to create new time entries based on the selected project if it was last run yesterday or before.
 
