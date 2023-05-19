@@ -1,5 +1,4 @@
 ---
-title: 'How I learned to stop worrying and love javascript (again)'
 tags:
   - javascript
   - typescript

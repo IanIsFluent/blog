@@ -6,11 +6,11 @@ tags:
   - azure-pipelines
 ---
 
-## Azure Static Web Apps with Next.js and Azure Pipelines
+# Azure Static Web Apps with Next.js and Azure Pipelines
 
 Building and deploying a Next.js site on Azure Static Web Apps with Azure Pipelines
 
-### About Azure Static Web Apps
+## About Azure Static Web Apps
 
 - Azure's answer to Vercel, Netlify, AWS Amplify etc
 - Like an enhanced static file host
@@ -22,7 +22,7 @@ Building and deploying a Next.js site on Azure Static Web Apps with Azure Pipeli
 
 The killer feature of static web apps is [Hybrid Next.js applications](https://learn.microsoft.com/en-us/azure/static-web-apps/deploy-nextjs-hybrid) which allows you to use Next.js SSR and API endpoints.
 
-### About Next.js SSR vs SSG
+## About Next.js SSR vs SSG
 
 - SSR - Server Side Rendering
   - Next.js will render the page on the server and send the HTML to the browser
@@ -34,7 +34,7 @@ The killer feature of static web apps is [Hybrid Next.js applications](https://l
 
 In order to use Next.js API endpoints, an Azure Static Web App needs to be deployed as a [Hybrid Next.js websites](https://learn.microsoft.com/en-us/azure/static-web-apps/nextjs#hybrid-nextjs-applications-preview) - and these run in SSR mode.
 
-### Deploying a Next.js app with Azure Pipelines
+## Deploying a Next.js app with Azure Pipelines
 
 In order to deploy as a Hybrid Next.js application, the site build has to happen inside the AzureStaticWebApp task (which uses Oryx). This is because [`skip_app_build` and `skip_api_build` features are not supported in preview](https://learn.microsoft.com/en-us/azure/static-web-apps/deploy-nextjs-hybrid#unsupported-features-in-preview) - and if you try to set `skip_app_build` then the task expects static site files, and you'll see the following error:
 
@@ -57,7 +57,7 @@ To set up deployment to an Azure Static Web App with Azure Pipelines, you need t
        app_location: '/' # set this to the folder of your Next.js app
    ```
 
-#### Size Error
+### Size Error
 
 When we tried to deploy our Next.js app to Azure Static Web Apps, we got the following error:
 
@@ -77,7 +77,7 @@ The Next.js build cache folder very quickly gets very large. This folder isn't u
     api_build_command: 'rm -rf .next/cache/'
 ```
 
-#### Using Web App Environments
+### Using Web App Environments
 
 Azure Static Web Apps allows you to deploy to multiple environments inside a single web app. This is great for seeing/testing PR or staging build outputs. To enable them, just specify the production branch (usually `main` or `master`):
 

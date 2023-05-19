@@ -4,7 +4,7 @@ tags:
   - vscode
 ---
 
-## Organise Usings on Save
+# Organise Usings on Save
 
 If your linter is complaining about unused usings or import sort order, you can make it stop by organising your usings using the shift+alt+o shortcut in VSCode.
 

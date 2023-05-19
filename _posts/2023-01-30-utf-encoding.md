@@ -5,7 +5,7 @@ tags:
   - encoding
 ---
 
-## UTF Encoding
+# UTF Encoding
 
 Text in software is complicated. We were struggling with an HTTP response body which didn't include a charset header - and appeared garbled when requested using Postman.
 
@@ -15,7 +15,7 @@ The answer was that it was UTF-16 encoded, so to decode this we needed to use:
 const decoded = Buffer.from(body, 'utf-16le').toString('utf-8');
 ```
 
-### UTF Byte Order Marks
+## UTF Byte Order Marks
 
 But if you try to decode a UTF-8 buffer as UTF-16 it won't work, so we need to check the encoding before decoding it. We can do this by checking the [Byte Order Mark (BOM)](https://en.wikipedia.org/wiki/Byte_order_mark) (we currently only care about UTF-8 or 16!).
 
@@ -27,7 +27,7 @@ But if you try to decode a UTF-8 buffer as UTF-16 it won't work, so we need to c
 
 So we needed to get the first 2-3 hex characters from the response body, and then check if they matched any of the BOMs.
 
-### Get first three hex characters (the BOM) from byte array
+## Get first three hex characters (the BOM) from byte array
 
 ```ts
 function firstThreeHexChars(byteArray: Uint8Array) {
@@ -39,7 +39,7 @@ function firstThreeHexChars(byteArray: Uint8Array) {
 }
 ```
 
-### Check the BOM
+## Check the BOM
 
 Now we can check the encoding using those characters:
 
@@ -60,7 +60,7 @@ function detectEncodingFromBom(
 }
 ```
 
-### Decode the body using the correct encoding
+## Decode the body using the correct encoding
 
 So to get a byte array from a url, detect its encoding, and then decode it:
 
