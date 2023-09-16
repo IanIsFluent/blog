@@ -19,4 +19,13 @@ But then you can't pull without first committing your changes. This is a pain if
 
 To deal with this you can [set another git config setting to stash whenever rebasing](https://git-scm.com/docs/git-config#Documentation/git-config.txt-rebaseautoStash) `git config rebase.autoStash true`. This will stash your changes before pulling, and then reapply them after the pull is complete.
 
-Now I can pull and rebase easily without having to commit my changes, and my git history is clean and simple. Yay!
+## Set per repo
+
+Now I can pull and rebase easily without having to commit my changes, and my git history is clean and simple by setting these two config options on each repo:
+
+```
+git config pull.rebase true
+git config rebase.autoStash true
+```
+
+Yay!
