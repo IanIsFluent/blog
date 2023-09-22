@@ -5,11 +5,11 @@ tags:
 
 # Easier and cleaner git workflow
 
-I have recently fallen in love with `git rebase`. It's a great way to keep your git history clean and tidy by making it look like work was done in a simple linear fashion, even if it wasn't. Now if I have work locally, I want to always rebase it onto the latest changes from the remote branch, rather than merge. I wondered if I could make this happen automatically when I pull in VSCode?
+I have recently fallen in love with `git rebase` ❤️. It's a great way to keep your git history clean and tidy by making it look like work was done in a simple linear fashion, even if it wasn't. Now if I have work locally, I want to always rebase it onto the latest changes from the remote branch, rather than merge. I wondered if I could make this happen automatically when I pull in VSCode?
 
 ## Auto rebase
 
-[StackOveflow to the rescue!](https://stackoverflow.com/a/38911284) (As usual!).
+[StackOverflow to the rescue!](https://stackoverflow.com/a/38911284) (As usual!).
 
 You can [set git config to rebase whenever pulling](https://git-scm.com/docs/git-config#Documentation/git-config.txt-pullrebase) using `git config pull.rebase true`.
 
@@ -28,4 +28,4 @@ git config pull.rebase true
 git config rebase.autoStash true
 ```
 
-Yay!
+Yay! 🙌
