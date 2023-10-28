@@ -11,4 +11,6 @@ When using the AzureRmWebAppDeployment@4 task in yaml pipelines, the default is 
 
 ## The secret setting
 
-The pipelines [Azure Web App Deployment Task](https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/azure-rm-web-app-deployment-v4?view=azure-pipelines) `enableCustomDeployment: true` will stop pipelines from auto-detecting the best deployment method, and use 'webDeploy'. This will unzip the files into the App Service storage, and not set `WEBSITE_RUN_FROM_PACKAGE=1`, giving Umbraco write access to the filesystem, and allowing it to run.
+The pipelines [Azure Web App Deployment Task](https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/azure-rm-web-app-deployment-v4?view=azure-pipelines) input value `enableCustomDeployment: true` will stop pipelines from auto-detecting the best deployment method and use 'webDeploy'.
+
+This will unzip the files into App Service storage, and leave `WEBSITE_RUN_FROM_PACKAGE` unset, giving Umbraco write access to the filesystem, and allowing it to run.
