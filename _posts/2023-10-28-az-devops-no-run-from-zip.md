@@ -1,5 +1,6 @@
 ---
 tags:
+  - umbraco
   - azure
   - azure-pipelines
   - azure-app-service
