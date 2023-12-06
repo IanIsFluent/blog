@@ -7,7 +7,7 @@ tags:
   - search
 ---
 
-# Adding data to an Umbraco index
+# Adding data to an Umbraco index (Umbraco 11+)
 
 [Umbraco](https://umbraco.com/) uses the Lucene search index - with a wrapper called [Examine](https://shazwazza.github.io/Examine/). If you want to customize the search index, you can attach an event handler to an event that fires when the index is updated and change/add to the data that is being stored.
 
