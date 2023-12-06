@@ -65,14 +65,14 @@ This handler will add the value of the `Interesting` property to the index for a
 ```csharp
 public class ExtraIndexDataHandler : IExtraIndexDataHandler
 {
-    private readonly IUmbracoContextFactory _umbracoContextFactory;
+    private readonly IContentService _contentService;
     private readonly ILogger<ExtraIndexDataHandler> _logger;
 
     public ExtraIndexDataHandler(
-        IUmbracoContextFactory umbracoContextFactory,
+        IContentService contentService,
         ILogger<ExtraIndexDataHandler> logger)
     {
-        _umbracoContextFactory = umbracoContextFactory;
+        _contentService = contentService;
         _logger = logger;
     }
 
@@ -90,20 +90,19 @@ public class ExtraIndexDataHandler : IExtraIndexDataHandler
 
     private void HandleUnsafely(IndexingItemEventArgs e)
     {
-        if (!e.ValueSet.ItemType.InvariantEquals("InterestingDocType"))
+        if (!e.ValueSet.ItemType.InvariantEquals("InterestingDocType") || !int.TryParse(e.ValueSet.Id, out var nodeId))
         {
             return;
         }
 
-        var values = e.ValueSet.Values.ToDictionary(x => x.Key, x => (IEnumerable<object>)x.Value);
-
-        using var ctx = _umbracoContextFactory.EnsureUmbracoContext();
-        var node = ctx.UmbracoContext?.Content?.GetById(int.Parse(e.ValueSet.Id));
+        var node = _contentService.GetById(nodeId);
 
         if (node == null)
         {
             return;
         }
+
+        var values = e.ValueSet.Values.ToDictionary(x => x.Key, x => (IEnumerable<object>)x.Value);
 
         var interestingPropertyValue = node.GetValue("Interesting")?.GetValue();
         values.Add("Interesting", new [] { interestingPropertyValue });
