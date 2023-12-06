@@ -106,7 +106,7 @@ public class ExtraIndexDataHandler : IExtraIndexDataHandler
         }
 
         var interestingPropertyValue = node.GetValue("Interesting")?.GetValue();
-        values.Add("Interesting", interestingPropertyValue);
+        values.Add("Interesting", new [] { interestingPropertyValue });
         e.SetValues(values);
     }
 }
