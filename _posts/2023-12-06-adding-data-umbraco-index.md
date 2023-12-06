@@ -90,7 +90,8 @@ public class ExtraIndexDataHandler : IExtraIndexDataHandler
 
     private void HandleUnsafely(IndexingItemEventArgs e)
     {
-        if (!e.ValueSet.ItemType.InvariantEquals("InterestingDocType") || !int.TryParse(e.ValueSet.Id, out var nodeId))
+        if (!e.ValueSet.ItemType.InvariantEquals("InterestingDocType")
+            || !int.TryParse(e.ValueSet.Id, out var nodeId))
         {
             return;
         }
@@ -102,7 +103,8 @@ public class ExtraIndexDataHandler : IExtraIndexDataHandler
             return;
         }
 
-        var values = e.ValueSet.Values.ToDictionary(x => x.Key, x => (IEnumerable<object>)x.Value);
+        var values = e.ValueSet.Values
+            .ToDictionary(x => x.Key, x => (IEnumerable<object>)x.Value);
 
         var interestingPropertyValue = node.GetValue("Interesting")?.GetValue();
         values.Add("Interesting", new [] { interestingPropertyValue });
