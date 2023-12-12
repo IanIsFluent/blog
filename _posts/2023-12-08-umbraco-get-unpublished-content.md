@@ -17,12 +17,10 @@ var contentTypeId = ContentTypeService.Get("DocTypeAlias")?.Id;
 
 ## 2. Getting the number of items
 
-Now we can get the content, but we need to know how many items to get. If we are implementing paging correctly, we can just get the first page - but to simplify, we can get the count of items, then just request that many - assuming it is less than `int.MaxValue` we should be OK:
+Now we can get the content, if we set the page size to be `int.MaxValue` we should be able to get everything in most cases.
 
 ```csharp
-ContentService.GetPagedOfType(contentTypeId, 0, 1, out var contentCount, null);
-var intCount = Convert.ToInt32(contentCount);
-var contentItems = ContentService.GetPagedOfType(contentTypeId, 0, intCount, out _, null);
+ContentService.GetPagedOfType(contentTypeId, 0, int.MaxValue, out _, null);
 ```
 
 ## 3. What is an IQuery<IContent>?
@@ -37,9 +35,7 @@ var contentTypeId = ContentTypeService.Get("DocTypeAlias")?.Id;
 using var scope = ScopeProvider.CreateScope(autoComplete: true);
 var query = scope.SqlContext.Query<IContent>().Where(c => !c.Published && !c.Trashed);
 
-ContentService.GetPagedOfType(contentTypeId, 0, 1, out var contentCount, query);
-var intCount = Convert.ToInt32(contentCount);
-var unpublishedContentItems = ContentService.GetPagedOfType(formCT.Id, 0, intCount, out _, query);
+var unpublishedContentItems = ContentService.GetPagedOfType(contentTypeId, 0, int.MaxValue, out _, query);
 ```
 
 Remember to inject `IContentService`, `IContentTypeService` and `IScopeProvider` into your controller constructor.
